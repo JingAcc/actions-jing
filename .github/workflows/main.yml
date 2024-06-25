@@ -1,0 +1,23 @@
+name: Test workflow
+
+on: 
+  workflow_dispatch:
+    inputs:
+      loglevel:
+        description: "Level to log at"
+        type: choice
+        default: info
+        options:
+          - info
+          - warning
+          - debug
+jobs:
+  myjob:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        envrionment: [dev,qa]
+        node: [14,16]
+    steps:
+      - name: Run a script ${{matrix.environment}} with node ${{ matrix.node }}
+        run: echo "This is running log level ${{ github.events.inputs.loglevel }}"
